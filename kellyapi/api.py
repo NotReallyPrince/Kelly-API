@@ -40,7 +40,7 @@ class KellyAPI:
                     )
                 if resp.status == 502:
                     raise ConnectionError()
-                response = await resp.json()
+                response = await resp.read()
                 if resp.status == 400:
                     raise InvalidRequest(response.get("docs"))
                 if resp.status == 422:
@@ -63,7 +63,7 @@ class KellyAPI:
                     )
                 if resp.status == 502:
                     raise ConnectionError()
-                response = await resp.json()
+                response = await resp.read()
                 if resp.status == 400:
                     raise InvalidRequest(response.get("docs"))
                 if resp.status == 422:
