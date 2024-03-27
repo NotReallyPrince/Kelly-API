@@ -22,3 +22,6 @@ class GenericApiError(BaseError):
 
 class ConnectionError(BaseError):
     message = "Failed to communicate server, Please report this: https://telegram.me/princexsupport"
+
+class InvalidApiKey(Exception):
+    pass
