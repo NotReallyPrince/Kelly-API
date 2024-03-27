@@ -9,7 +9,7 @@ from io import BytesIO
 from typing import Union, List
 from .errors import *
 
-class PrinceAPI:
+class KellyAPI:
     """
     PrinceAPI class to access all the endpoints
     Documentation: https://api.kellyai.pro/docs
