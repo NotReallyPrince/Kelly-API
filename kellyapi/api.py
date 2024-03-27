@@ -17,7 +17,7 @@ class KellyAPI:
     Updates Channel: https://t.me/KellyAINews
     """
 
-    def __init__(self, api_key: str, api: str = None, session: aiohttp.ClientSession = None):
+    def __init__(self, api_key: str = None, api: str = None, session: aiohttp.ClientSession = None):
         self.api = api or "https://api.kellyai.pro/"
         self.api_key = api_key
         self.session = session or aiohttp.ClientSession
