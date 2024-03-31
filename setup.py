@@ -4,9 +4,9 @@ with open("README.md", encoding="utf8") as readme:
     long_description = readme.read()
 
 setuptools.setup(
-    name="princeapi",
+    name="kellyapi",
     packages=setuptools.find_packages(),
-    version="0.0.2",
+    version="0.0.1",
     license="MIT",
     description="A Project Made To Centralize Various APIs 📖 No Authorization Needed :)",
     long_description=long_description,
