@@ -40,11 +40,26 @@ class KellyAPI:
                     )
                 if resp.status == 502:
                     raise ConnectionError()
-                response = await resp.read()
-                if resp.status == 400:
-                    raise InvalidRequest(response.get("docs"))
-                if resp.status == 422:
-                    raise GenericApiError(response.get("error"))
+                response = await resp.json()
+        except asyncio.TimeoutError:
+            raise TimeoutError
+        except ContentTypeError:
+            raise InvalidContent
+        except ClientConnectorError:
+            raise ConnectionError
+        return self._parse_result(response)
+
+    async def _post_json(self, route, data, timeout=60):
+        try:
+            async with self.session() as client:
+                resp = await client.post(self.api + route, data=data, headers={"X-Kelly-KEY": self.api_key}, timeout=timeout)
+                if resp.status in (401, 403):
+                    raise InvalidApiKey(
+                        "Invalid API key, Get an api key from @ARQRobot"
+                    )
+                if resp.status == 502:
+                    raise ConnectionError()
+                response = await resp.json()
         except asyncio.TimeoutError:
             raise TimeoutError
         except ContentTypeError:
@@ -64,29 +79,62 @@ class KellyAPI:
                 if resp.status == 502:
                     raise ConnectionError()
                 response = await resp.read()
-                if resp.status == 400:
-                    raise InvalidRequest(response.get("docs"))
-                if resp.status == 422:
-                    raise GenericApiError(response.get("error"))
         except asyncio.TimeoutError:
             raise TimeoutError
         except ContentTypeError:
             raise InvalidContent
         except ClientConnectorError:
             raise ConnectionError
-        return self._parse_result(response)
+        return response
+        
+    async def sd_models(self):
+        content = await self._fetch("sd-models")
+        return content
+        
+    async def sdxl_models(self):
+        content = await self._fetch("sdxl-models")
+        return content
+        
+    async def get_style(self):
+        content = await self._fetch("styles")
+        return content
 
+    async def generate(self, prompt: str, negative_prompt: str = "auto", model:str = "DreamShaper", style: str = "cinematic", width: str = 1024, height: str = 1024):
+        kwargs = dict(prompt=prompt, negative_prompt=negative_prompt, model=model, style=style, width=width, height=height)
+        content = await self._post_data("generate", json=kwargs)
+        image = BytesIO(content)
+        image = "image.png"
+        return image
 
-    async def generate(self, prompt: str, **kwargs):
-        """
-        Returns An Object.
-                Parameters:
-                        code (str): Code to make carbon
-                        kwagrs (dict): Extra args for styling
-                Returns:
-                        Result object (BytesIO): Results which you can access with filename
-        """
-        if "prompt" not in kwargs:
-            kwargs["prompt"] = prompt
+    async def llm_models(self):
+        content = await self._fetch("llm-models")
+        return content
 
-        return await self._post_json("generate", json=kwargs)
+    async def llm(self, prompt: str, model: str = "ChatGPT", character: str = "KelyAI"):
+        kwargs = dict(prompt=prompt, model=model, character=character)
+        content = await self._post_json("llm", json=kwargs)
+        return content.message
+        
+    async def upscale(self, image: str):
+        kwargs = dict(image=image)
+        content = await self._post_data("upscale", json=kwargs)
+        image = BytesIO(content)
+        image = "image.png"
+        return image
+
+    async def voice_models(self):
+        content = await self._fetch("voice-models")
+        return content
+
+    async def text2voice(self, text: str, model: str = "en-US_LisaExpressive"):
+        kwargs = dict(text=text, model=model)
+        content = await self._post_data("text2voice", json=kwargs)
+        image = BytesIO(content)
+        image = "image.png"
+        return image
+        
+    async def voice2text(self, audio: str):
+        kwargs = dict(audio=audio)
+        content = await self._post_json("voice2text", json=kwargs)
+        return content.result
+        
