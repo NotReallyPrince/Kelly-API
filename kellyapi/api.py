@@ -39,7 +39,7 @@ class KellyAPI:
                 )
                 if resp.status in (401, 403):
                     raise InvalidApiKey(
-                        "Invalid API key, Get an api key from @ARQRobot"
+                        "Invalid API key, Get an api key from @KellyAIBot"
                     )
                 if resp.status == 502:
                     raise ConnectionError()
@@ -63,7 +63,7 @@ class KellyAPI:
                 )
                 if resp.status in (401, 403):
                     raise InvalidApiKey(
-                        "Invalid API key, Get an api key from @ARQRobot"
+                        "Invalid API key, Get an api key from @KellyAIBot"
                     )
                 if resp.status == 502:
                     raise ConnectionError()
@@ -87,7 +87,7 @@ class KellyAPI:
                 )
                 if resp.status in (401, 403):
                     raise InvalidApiKey(
-                        "Invalid API key, Get an api key from @ARQRobot"
+                        "Invalid API key, Get an api key from @KellyAIBot"
                     )
                 if resp.status == 502:
                     raise ConnectionError()
