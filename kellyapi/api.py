@@ -10,13 +10,6 @@ from .errors import *
 
 
 class KellyAPI:
-    """
-    PrinceAPI class to access all the endpoints
-    Documentation: https://api.kellyai.pro/docs
-    Support Group: https://t.me/KellyAIChat
-    Updates Channel: https://t.me/KellyAINews
-    """
-
     def __init__(
         self,
         api_key: str = None,
