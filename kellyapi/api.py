@@ -129,7 +129,7 @@ class KellyAPI:
             width=width,
             height=height,
         )
-        content = await self._post_data("generate", json=kwargs)
+        content = await self._post_data("generate", data=kwargs)
         image = BytesIO(content)
         image = "image.png"
         return image
@@ -140,12 +140,12 @@ class KellyAPI:
 
     async def llm(self, prompt: str, model: str = "ChatGPT", character: str = "KelyAI"):
         kwargs = dict(prompt=prompt, model=model, character=character)
-        content = await self._post_json("llm", json=kwargs)
+        content = await self._post_json("llm", data=kwargs)
         return content.message
 
     async def upscale(self, image: str):
         kwargs = dict(image=image)
-        content = await self._post_data("upscale", json=kwargs)
+        content = await self._post_data("upscale", data=kwargs)
         image = BytesIO(content)
         image = "image.png"
         return image
@@ -156,12 +156,12 @@ class KellyAPI:
 
     async def text2voice(self, text: str, model: str = "en-US_LisaExpressive"):
         kwargs = dict(text=text, model=model)
-        content = await self._post_data("text2voice", json=kwargs)
+        content = await self._post_data("text2voice", data=kwargs)
         image = BytesIO(content)
         image = "image.png"
         return image
 
     async def voice2text(self, audio: str):
         kwargs = dict(audio=audio)
-        content = await self._post_json("voice2text", json=kwargs)
+        content = await self._post_json("voice2text", data=kwargs)
         return content.result
