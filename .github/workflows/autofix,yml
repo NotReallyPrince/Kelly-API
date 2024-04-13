@@ -1,0 +1,33 @@
+name: PyLint
+
+on: [push, pull_request]
+
+jobs:
+  PEP8:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: 3.10.13
+      - name: Install Python lint libraries
+        run: |
+          pip install autoflake isort black
+      - name: Remove unused imports and variables
+        run: |
+          autoflake --in-place --recursive --remove-all-unused-imports --remove-unused-variables .
+      - name: lint with isort
+        run: |
+          isort .
+      - name: lint with black
+        run: |
+          black .
+      - uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: 'Auto-Fix'
+          commit_options: '--no-verify'
+          repository: .
+          commit_user_name: NotReallyPrince
+          commit_user_email: princebots3011@gmail.com
