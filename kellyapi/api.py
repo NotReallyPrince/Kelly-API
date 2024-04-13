@@ -130,9 +130,7 @@ class KellyAPI:
             height=height,
         )
         content = await self._post_data("generate", data=kwargs)
-        image = BytesIO(content)
-        image = "image.png"
-        return image
+        return content
 
     async def llm_models(self):
         content = await self._fetch("llm-models")
@@ -146,9 +144,7 @@ class KellyAPI:
     async def upscale(self, image: str):
         kwargs = dict(image=image)
         content = await self._post_data("upscale", data=kwargs)
-        image = BytesIO(content)
-        image = "image.png"
-        return image
+        return content
 
     async def voice_models(self):
         content = await self._fetch("voice-models")
@@ -157,9 +153,7 @@ class KellyAPI:
     async def text2voice(self, text: str, model: str = "en-US_LisaExpressive"):
         kwargs = dict(text=text, model=model)
         content = await self._post_data("text2voice", data=kwargs)
-        image = BytesIO(content)
-        image = "voice.ogg"
-        return image
+        return content
 
     async def voice2text(self, audio: str):
         kwargs = dict(audio=audio)
