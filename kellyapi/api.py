@@ -158,7 +158,7 @@ class KellyAPI:
         kwargs = dict(text=text, model=model)
         content = await self._post_data("text2voice", data=kwargs)
         image = BytesIO(content)
-        image = "image.png"
+        image = "voice.ogg"
         return image
 
     async def voice2text(self, audio: str):
