@@ -6,7 +6,7 @@ with open("README.md", encoding="utf8") as readme:
 setuptools.setup(
     name="kellyapi",
     packages=setuptools.find_packages(),
-    version="0.0.1.3",
+    version="0.0.1.4",
     license="MIT",
     description="A Project Made To Centralize Various APIs 📖 No Authorization Needed :)",
     long_description=long_description,
