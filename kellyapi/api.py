@@ -34,7 +34,7 @@ class KellyAPI:
                 resp = await client.get(
                     self.api + route,
                     params=params,
-                    headers={"X-Kelly-KEY": self.api_key},
+                    headers={"Kelly-API-KEY": self.api_key},
                     timeout=timeout,
                 )
                 if resp.status in (401, 403):
@@ -57,8 +57,8 @@ class KellyAPI:
             async with self.session() as client:
                 resp = await client.post(
                     self.api + route,
-                    data=data,
-                    headers={"X-Kelly-KEY": self.api_key},
+                    json=data,
+                    headers={"Kelly-API-KEY": self.api_key},
                     timeout=timeout,
                 )
                 if resp.status in (401, 403):
@@ -81,8 +81,8 @@ class KellyAPI:
             async with self.session() as client:
                 resp = await client.post(
                     self.api + route,
-                    data=data,
-                    headers={"X-Kelly-KEY": self.api_key},
+                    json=data,
+                    headers={"Kelly-API-KEY": self.api_key},
                     timeout=timeout,
                 )
                 if resp.status in (401, 403):
