@@ -9,7 +9,6 @@ from io import BytesIO
 from typing import Union, List
 from .errors import *
 
-
 class KellyAPI:
     """
     PrinceAPI class to access all the endpoints
