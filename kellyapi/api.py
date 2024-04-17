@@ -48,7 +48,7 @@ class KellyAPI:
             raise InvalidContent
         except ClientConnectorError:
             raise ConnectionError
-        return self._parse_result(response)
+        return response
 
     async def _post_json(self, route, data, timeout=60):
         try:
@@ -113,7 +113,7 @@ class KellyAPI:
     async def generate(
         self,
         prompt: str,
-        negative_prompt: str = "auto",
+        negative_prompt: str = None,
         model: str = "DreamShaper",
         style: str = "cinematic",
         width: str = 1024,
