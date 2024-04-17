@@ -143,7 +143,7 @@ class KellyAPI:
         kwargs = dict(image=image)
         content = await self._post_data("upscale", data=kwargs)
         return content
-    
+
     async def rmbg(self, image: str):
         kwargs = dict(image=image)
         content = await self._post_data("rmbg", data=kwargs)
