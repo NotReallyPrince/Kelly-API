@@ -21,8 +21,6 @@ class KellyAPI:
         self.session = session or aiohttp.ClientSession
 
     def _parse_result(self, response: dict) -> Union[DotMap, List[BytesIO]]:
-        response.get("type")
-        error = response.get("error")
         response = DotMap(response)
         if not error:
             response.success = True
@@ -144,6 +142,11 @@ class KellyAPI:
     async def upscale(self, image: str):
         kwargs = dict(image=image)
         content = await self._post_data("upscale", data=kwargs)
+        return content
+    
+    async def rmbg(self, image: str):
+        kwargs = dict(image=image)
+        content = await self._post_data("rmbg", data=kwargs)
         return content
 
     async def voice_models(self):
