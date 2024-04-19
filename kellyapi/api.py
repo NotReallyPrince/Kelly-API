@@ -18,17 +18,17 @@ class KellyAPI:
     ):
         self.api = api or "https://api.kellyai.pro/"
         self.api_key = api_key
-        self.session = session or aiohttp.ClientSession
+        self.session = session or aiohttp.ClientSession()
 
     def _parse_result(self, response: dict) -> Union[DotMap, List[BytesIO]]:
         response = DotMap(response)
-        if not error:
+        if 'error' not in response:
             response.success = True
         return response
 
     async def _fetch(self, route, timeout=60, **params):
         try:
-            async with self.session() as client:
+            async with self.session as client:
                 resp = await client.get(
                     self.api + route,
                     params=params,
@@ -40,19 +40,19 @@ class KellyAPI:
                         "Invalid API key, Get an api key from @KellyAIBot"
                     )
                 if resp.status == 502:
-                    raise ConnectionError()
+                    raise ConnectionError("Connection Error")
                 response = await resp.json()
         except asyncio.TimeoutError:
-            raise TimeoutError
+            raise TimeoutError("Timeout Error")
         except ContentTypeError:
             raise InvalidContent
         except ClientConnectorError:
-            raise ConnectionError
+            raise ConnectionError("Connection Error")
         return response
 
     async def _post_json(self, route, data, timeout=60):
         try:
-            async with self.session() as client:
+            async with self.session as client:
                 resp = await client.post(
                     self.api + route,
                     json=data,
@@ -64,19 +64,19 @@ class KellyAPI:
                         "Invalid API key, Get an api key from @KellyAIBot"
                     )
                 if resp.status == 502:
-                    raise ConnectionError()
+                    raise ConnectionError("Connection Error")
                 response = await resp.json()
         except asyncio.TimeoutError:
-            raise TimeoutError
+            raise TimeoutError("Timeout Error")
         except ContentTypeError:
             raise InvalidContent
         except ClientConnectorError:
-            raise ConnectionError
+            raise ConnectionError("Connection Error")
         return self._parse_result(response)
 
     async def _post_data(self, route, data, timeout=60):
         try:
-            async with self.session() as client:
+            async with self.session as client:
                 resp = await client.post(
                     self.api + route,
                     json=data,
@@ -88,16 +88,15 @@ class KellyAPI:
                         "Invalid API key, Get an api key from @KellyAIBot"
                     )
                 if resp.status == 502:
-                    raise ConnectionError()
+                    raise ConnectionError("Connection Error")
                 response = await resp.read()
         except asyncio.TimeoutError:
-            raise TimeoutError
+            raise TimeoutError("Timeout Error")
         except ContentTypeError:
             raise InvalidContent
         except ClientConnectorError:
-            raise ConnectionError
+            raise ConnectionError("Connection Error")
         return response
-
     async def sd_models(self):
         content = await self._fetch("sd-models")
         return content['models']
