@@ -100,15 +100,15 @@ class KellyAPI:
 
     async def sd_models(self):
         content = await self._fetch("sd-models")
-        return content.models
+        return content['models']
 
     async def sdxl_models(self):
         content = await self._fetch("sdxl-models")
-        return content.models
+        return content['models']
 
     async def get_styles(self):
         content = await self._fetch("styles")
-        return content.styles
+        return content['styles']
 
     async def generate(
         self,
@@ -132,12 +132,12 @@ class KellyAPI:
 
     async def llm_models(self):
         content = await self._fetch("llm-models")
-        return content.models
+        return content['models']
 
     async def llm(self, prompt: str, model: str = "ChatGPT", character: str = "KelyAI"):
         kwargs = dict(prompt=prompt, model=model, character=character)
         content = await self._post_json("llm", data=kwargs)
-        return content.message
+        return content['message']
 
     async def upscale(self, image: str):
         kwargs = dict(image=image)
@@ -151,7 +151,7 @@ class KellyAPI:
 
     async def voice_models(self):
         content = await self._fetch("voice-models")
-        return content.models
+        return content['models']
 
     async def text2voice(self, text: str, model: str = "en-US_LisaExpressive"):
         kwargs = dict(text=text, model=model)
@@ -161,4 +161,4 @@ class KellyAPI:
     async def voice2text(self, audio: str):
         kwargs = dict(audio=audio)
         content = await self._post_json("voice2text", data=kwargs)
-        return content.result
+        return content['result']
