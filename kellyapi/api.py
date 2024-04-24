@@ -156,7 +156,7 @@ class KellyAPI:
         kwargs = dict(audio=audio)
         content = await self._post_json("voice2text", data=kwargs)
         return content.result
-    
+
     async def text2write(self, text: str):
         kwargs = dict(text=text)
         content = await self._post_data("text2write", data=kwargs)
