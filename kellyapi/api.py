@@ -106,16 +106,11 @@ class KellyAPI:
         content = await self._fetch("sdxl-models")
         return content
 
-    async def get_styles(self):
-        content = await self._fetch("styles")
-        return content
-
     async def generate(
         self,
         prompt: str,
         negative_prompt: str = None,
         model: str = "DreamShaper",
-        style: str = "cinematic",
         width: str = 1024,
         height: str = 1024,
     ):
@@ -123,7 +118,6 @@ class KellyAPI:
             prompt=prompt,
             negative_prompt=negative_prompt,
             model=model,
-            style=style,
             width=width,
             height=height,
         )
@@ -162,3 +156,8 @@ class KellyAPI:
         kwargs = dict(audio=audio)
         content = await self._post_json("voice2text", data=kwargs)
         return content.result
+    
+    async def text2write(self, text: str):
+        kwargs = dict(text=text)
+        content = await self._post_data("text2write", data=kwargs)
+        return content
