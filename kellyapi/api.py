@@ -1,9 +1,9 @@
 import asyncio
+import base64
 from io import BytesIO
 from typing import List, Union
 
 import aiohttp
-import base64
 from aiohttp.client_exceptions import ClientConnectorError, ContentTypeError
 from dotmap import DotMap
 
@@ -99,7 +99,7 @@ class KellyAPI:
             height=height,
         )
         content = await self._post_json("generate", data=kwargs)
-        image_data =  base64.b64decode(content.image)
+        image_data = base64.b64decode(content.image)
         return image_data
 
     async def llm_models(self):
@@ -114,13 +114,13 @@ class KellyAPI:
     async def upscale(self, image_data: str):
         kwargs = dict(image_data=image)
         content = await self._post_json("upscale", data=kwargs)
-        image_data =  base64.b64decode(content.image)
+        image_data = base64.b64decode(content.image)
         return image_data
 
     async def rmbg(self, image_data: str):
         kwargs = dict(image_data=image)
         content = await self._post_json("rmbg", data=kwargs)
-        image_data =  base64.b64decode(content.image)
+        image_data = base64.b64decode(content.image)
         return image_data
 
     async def voice_models(self):
@@ -130,7 +130,7 @@ class KellyAPI:
     async def text2voice(self, text: str, model: str = "en-US_LisaExpressive"):
         kwargs = dict(text=text, model=model)
         content = await self._post_json("text2voice", data=kwargs)
-        image_data =  base64.b64decode(content.voice)
+        image_data = base64.b64decode(content.voice)
         return image_data
 
     async def voice2text(self, audio: str):
@@ -141,5 +141,5 @@ class KellyAPI:
     async def text2write(self, text: str):
         kwargs = dict(text=text)
         content = await self._post_json("text2write", data=kwargs)
-        image_data =  base64.b64decode(content.image)
+        image_data = base64.b64decode(content.image)
         return image_data
