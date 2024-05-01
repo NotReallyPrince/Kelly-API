@@ -1,14 +1,12 @@
 import setuptools
 
-from kellyapi import __version__ as version
-
 with open("README.md", encoding="utf8") as readme:
     long_description = readme.read()
 
 setuptools.setup(
     name="kellyapi",
     packages=setuptools.find_packages(),
-    version=version,
+    version='0.0.2.2",
     license="MIT",
     description="A Project Made To Centralize Various APIs 📖 No Authorization Needed :)",
     long_description=long_description,
