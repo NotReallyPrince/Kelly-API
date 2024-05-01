@@ -101,7 +101,7 @@ class KellyAPI:
         content = await self._post_json("image/generate", data=kwargs)
         image_data = base64.b64decode(content.image)
         return image_data
-    
+
     async def img2img(
         self,
         prompt: str,
@@ -120,7 +120,7 @@ class KellyAPI:
         content = await self._post_json("image/edit", data=kwargs)
         image_data = base64.b64decode(content.image)
         return image_data
-    
+
     async def img2text(
         self,
         prompt: str,
@@ -174,7 +174,7 @@ class KellyAPI:
         content = await self._post_json("write/notes", data=kwargs)
         image_data = base64.b64decode(content.image)
         return image_data
-    
+
     async def code2image(self, text: str):
         kwargs = dict(code=text)
         content = await self._post_json("write/code", data=kwargs)
