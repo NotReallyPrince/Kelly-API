@@ -1,4 +1,5 @@
 import setuptools
+
 from kellyapi import __version__ as version
 
 with open("README.md", encoding="utf8") as readme:
