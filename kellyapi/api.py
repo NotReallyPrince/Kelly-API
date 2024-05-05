@@ -33,7 +33,7 @@ class KellyAPI:
                 resp = await client.get(
                     self.api + route,
                     params=params,
-                    headers={"Kelly-API-KEY": self.api_key},
+                    headers={"Authorization": f"Bearer {self.api_key}"},
                     timeout=timeout,
                 )
                 if resp.status in (401, 403):
@@ -57,7 +57,7 @@ class KellyAPI:
                 resp = await client.post(
                     self.api + route,
                     json=data,
-                    headers={"Kelly-API-KEY": self.api_key},
+                    headers={"Kelly-API-KEY": f"Bearer {self.api_key}"},
                     timeout=timeout,
                 )
                 if resp.status in (401, 403):
@@ -74,6 +74,7 @@ class KellyAPI:
         except ClientConnectorError:
             raise ConnectionError
         return self._parse_result(response)
+    
 
     async def sd_models(self):
         content = await self._fetch("sd/models")
@@ -88,8 +89,8 @@ class KellyAPI:
         prompt: str,
         negative_prompt: str = "canvas frame, cartoon, 3d, ((disfigured)), ((bad art)), ((deformed)),((extra limbs)),((close up)),((b&w)), weird colors, blurry, (((duplicate))), ((morbid)), ((mutilated)), [out of frame], extra fingers, mutated hands, ((poorly drawn hands)), ((poorly drawn face)), (((mutation))), (((deformed))), ((ugly)), blurry, ((bad anatomy)), (((bad proportions))), ((extra limbs)), cloned face, (((disfigured))), out of frame, ugly, extra limbs, (bad anatomy), gross proportions, (malformed limbs), ((missing arms)), ((missing legs)), (((extra arms))), (((extra legs))), mutated hands, (fused fingers), (too many fingers), (((long neck))), Photoshop, video game, ugly, tiling, poorly drawn hands, poorly drawn feet, poorly drawn face, out of frame, mutation, mutated, extra limbs, extra legs, extra arms, disfigured, deformed, cross-eye, body out of frame, blurry, bad art, bad anatomy, nsfw",
         model: str = "PhotoPerfect",
-        width: str = 1024,
-        height: str = 1024,
+        width: int = 1024,
+        height: int = 1024,
     ):
         kwargs = dict(
             prompt=prompt,
@@ -97,6 +98,7 @@ class KellyAPI:
             model=model,
             width=width,
             height=height,
+            responseType="base64data"
         )
         content = await self._post_json("image/generate", data=kwargs)
         image_data = base64.b64decode(content.image)
@@ -116,6 +118,7 @@ class KellyAPI:
             image_data=image_data,
             width=width,
             height=height,
+            responseType="base64data"
         )
         content = await self._post_json("image/edit", data=kwargs)
         image_data = base64.b64decode(content.image)
@@ -143,13 +146,13 @@ class KellyAPI:
         return content.message
 
     async def upscale(self, image_data: str):
-        kwargs = dict(image_data=image)
+        kwargs = dict(image_data=image_data, responseType="base64data")
         content = await self._post_json("image/upscale", data=kwargs)
         image_data = base64.b64decode(content.image)
         return image_data
 
-    async def rmbg(self, image_data: str):
-        kwargs = dict(image_data=image)
+    async def removebg(self, image_data: str):
+        kwargs = dict(image_data=image_data, responseType="base64data")
         content = await self._post_json("image/removebg", data=kwargs)
         image_data = base64.b64decode(content.image)
         return image_data
@@ -159,7 +162,7 @@ class KellyAPI:
         return content
 
     async def text2voice(self, text: str, model: str = "en-US_LisaExpressive"):
-        kwargs = dict(text=text, model=model)
+        kwargs = dict(text=text, model=model, responseType="base64data")
         content = await self._post_json("voice/generation", data=kwargs)
         image_data = base64.b64decode(content.voice)
         return image_data
@@ -170,13 +173,13 @@ class KellyAPI:
         return content.result
 
     async def text2write(self, text: str):
-        kwargs = dict(code=text)
+        kwargs = dict(code=text, responseType="base64data")
         content = await self._post_json("write/notes", data=kwargs)
         image_data = base64.b64decode(content.image)
         return image_data
 
     async def code2image(self, text: str):
-        kwargs = dict(code=text)
+        kwargs = dict(code=text, responseType="base64data")
         content = await self._post_json("write/code", data=kwargs)
         image_data = base64.b64decode(content.image)
         return image_data
