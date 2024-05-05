@@ -74,7 +74,6 @@ class KellyAPI:
         except ClientConnectorError:
             raise ConnectionError
         return self._parse_result(response)
-    
 
     async def sd_models(self):
         content = await self._fetch("sd/models")
@@ -98,7 +97,7 @@ class KellyAPI:
             model=model,
             width=width,
             height=height,
-            responseType="base64data"
+            responseType="base64data",
         )
         content = await self._post_json("image/generate", data=kwargs)
         image_data = base64.b64decode(content.image)
@@ -118,7 +117,7 @@ class KellyAPI:
             image_data=image_data,
             width=width,
             height=height,
-            responseType="base64data"
+            responseType="base64data",
         )
         content = await self._post_json("image/edit", data=kwargs)
         image_data = base64.b64decode(content.image)
