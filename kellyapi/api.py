@@ -23,6 +23,7 @@ class KellyAPI:
 
     def _parse_result(self, response: dict) -> Union[DotMap, List[BytesIO]]:
         response = DotMap(response)
+        error = response.get("detail")
         if not error:
             response.success = True
         return response
