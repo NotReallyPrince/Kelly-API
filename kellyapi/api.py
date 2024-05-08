@@ -57,7 +57,7 @@ class KellyAPI:
                 resp = await client.post(
                     self.api + route,
                     json=data,
-                    headers={"Kelly-API-KEY": f"Bearer {self.api_key}"},
+                    headers={"Authorization": f"Bearer {self.api_key}"},
                     timeout=timeout,
                 )
                 if resp.status in (401, 403):
